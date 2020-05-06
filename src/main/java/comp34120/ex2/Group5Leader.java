@@ -68,7 +68,7 @@ final class Group5Leader extends PlayerImpl {
         if (p_date == 130) {
             // Log total profit
             float total = 0.0f;
-            for (int i = 101; i <= 130; i++) {
+            for (int i = 100; i <= 129; i++) {
                 // It only matters about the profit for the last 30 days in the simulation
                 total += PlatformHelper.calculateProfit(platformHistory.get(i));
             }
