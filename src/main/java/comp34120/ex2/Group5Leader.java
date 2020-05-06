@@ -54,6 +54,9 @@ final class Group5Leader extends PlayerImpl {
         float b = linearRegSolver.getB();
         float leadOptimal = (0.3f * a + 0.3f * b - 3) / (0.6f * b - 2);
 
+        // Log what we think the followers price will be for this day
+        m_platformStub.log(PlayerType.LEADER, "We predict followers price: " + linearRegSolver.predict(leadOptimal));
+
         if (b > 3.33) {
             m_platformStub.log(PlayerType.LEADER,"Constraints Broken");
         }
