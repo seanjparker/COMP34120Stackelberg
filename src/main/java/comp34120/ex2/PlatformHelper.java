@@ -14,7 +14,7 @@ public class PlatformHelper {
     }
 
     public static float calculateProfit(Record day) {
-        // We need to calculate the profit
-        return 1.0f;
+        // (u_L - c_L) * S_L(u_L, u_F)
+        return (day.m_leaderPrice - day.m_cost) * (2 - day.m_leaderPrice + (0.3f * day.m_followerPrice));
     }
 }

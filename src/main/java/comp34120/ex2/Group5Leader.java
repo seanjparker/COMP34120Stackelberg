@@ -39,8 +39,10 @@ final class Group5Leader extends PlayerImpl {
     @Override
     public void proceedNewDay(int p_date) throws RemoteException {
     	// Get last record
-		Record lastDay = m_platformStub.query(m_type, p_date);
+		Record lastDay = m_platformStub.query(m_type, p_date - 1);
         platformHistory.add(lastDay);
+		float lastDayProfit = PlatformHelper.calculateProfit(lastDay);
+
 		// Train
         // Calculate parameters for followers reaction function
 		linearRegSolver.fit(platformHistory);
@@ -48,15 +50,33 @@ final class Group5Leader extends PlayerImpl {
 		// Predict
         // Find the best strategy for the leader by solving maximisation problem
         // Use the predicted follower function we found above to help calculate our response
-        // linearRegSolver.predict(lastDay.m_followerPrice)
-        float a=linearRegSolver.getA();
-        float b=linearRegSolver.getB();
-        float leadOptimal= (float) ((0.3*a+0.3*b-3)/(0.6*b-2));
-        if(b>3.33){
+        float a = linearRegSolver.getA();
+        float b = linearRegSolver.getB();
+        float leadOptimal = (0.3f * a + 0.3f * b - 3) / (0.6f * b - 2);
+
+        if (b > 3.33) {
             m_platformStub.log(PlayerType.LEADER,"Constraints Broken");
         }
+
 		// Publish
         m_platformStub.publishPrice(m_type, leadOptimal);
+
+
+        // Log info
+        m_platformStub.log(PlayerType.LEADER, "Last days profit = " + lastDayProfit);
+
+        if (p_date == 130) {
+            // Log total profit
+            float total = 0.0f;
+            for (Record day : platformHistory) {
+                // It only matters about the profit for the last 30 days in the simulation
+                if (day.m_date > 100) {
+                    total += PlatformHelper.calculateProfit(day);
+                }
+            }
+
+            m_platformStub.log(PlayerType.LEADER, "Total profit = " + total);
+        }
     }
 
     @Override
