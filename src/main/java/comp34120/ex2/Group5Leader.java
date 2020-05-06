@@ -48,9 +48,12 @@ final class Group5Leader extends PlayerImpl {
         // Find the best strategy for the leader by solving maximisation problem
         // Use the predicted follower function we found above to help calculate our response
         // linearRegSolver.predict(lastDay.m_followerPrice)
+        float a=linearRegSolver.getA();
+        float b=linearRegSolver.getB();
+        float leadOptimal= (float) ((0.3*a+0.3*b-3)/(0.6*b-2));
 
 		// Publish
-        m_platformStub.publishPrice(m_type, 1.0f);
+        m_platformStub.publishPrice(m_type, leadOptimal);
     }
 
     @Override
