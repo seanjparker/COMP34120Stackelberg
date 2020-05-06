@@ -1,5 +1,7 @@
 package comp34120.ex2;
 
+import java.util.ArrayList;
+
 public class LinearRegressionSolver implements Solver {
     private float a, b;
 
@@ -20,9 +22,9 @@ public class LinearRegressionSolver implements Solver {
 
     @Override
     // Implements the equations in Lecture 4, slide 25
-    public void fit(Record[] history) {
+    public void fit(ArrayList<Record> history) {
         float leader_squared_sum = 0, follower_reaction_sum = 0, leader_sum = 0, leader_prod_follower_sum = 0;
-        int T = history.length;
+        int T = history.size();
         Record day;
 
         // Single loop where we calculate the terms of the equations
@@ -49,6 +51,6 @@ public class LinearRegressionSolver implements Solver {
     @Override
     // Predict using the learnt parameters and the linear function
     public float predict(float u) {
-        return a + u * b;
+            return a + u * b;
     }
 }

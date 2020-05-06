@@ -2,6 +2,7 @@ package comp34120.ex2;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -13,7 +14,7 @@ import java.util.TimerTask;
  */
 final class Group5Leader extends PlayerImpl {
 
-    private Record[] platformHistory;
+    private ArrayList<Record> platformHistory;
     private Solver linearRegSolver;
 
     private Group5Leader() throws RemoteException, NotBoundException {
@@ -39,7 +40,7 @@ final class Group5Leader extends PlayerImpl {
     public void proceedNewDay(int p_date) throws RemoteException {
     	// Get last record
 		Record lastDay = m_platformStub.query(m_type, p_date);
-
+        platformHistory.add(lastDay);
 		// Train
         // Calculate parameters for followers reaction function
 		linearRegSolver.fit(platformHistory);
@@ -58,6 +59,7 @@ final class Group5Leader extends PlayerImpl {
 
     @Override
     public void startSimulation(int p_steps) throws RemoteException {
+        platformHistory = new ArrayList<Record>();
         platformHistory = PlatformHelper.getRecordHistory(m_platformStub);
 		linearRegSolver = new LinearRegressionSolver();
     }

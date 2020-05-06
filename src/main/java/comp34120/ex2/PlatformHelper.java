@@ -1,13 +1,14 @@
 package comp34120.ex2;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 public class PlatformHelper {
 
-    public static Record[] getRecordHistory(Platform plt) throws RemoteException {
-        Record[] history = new Record[100];
+    public static ArrayList<Record> getRecordHistory(Platform plt) throws RemoteException {
+        ArrayList<Record> history = new ArrayList<Record>();
         for (int i = 1; i <= 100; i++) {
-            history[i - 1] = plt.query(PlayerType.LEADER, i);
+            history.add(plt.query(PlayerType.LEADER, i));
         }
         return history;
     }
