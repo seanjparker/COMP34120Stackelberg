@@ -52,7 +52,9 @@ final class Group5Leader extends PlayerImpl {
         float a=linearRegSolver.getA();
         float b=linearRegSolver.getB();
         float leadOptimal= (float) ((0.3*a+0.3*b-3)/(0.6*b-2));
-
+        if(b>3.33){
+            m_platformStub.log(PlayerType.LEADER,"Constraints Broken");
+        }
 		// Publish
         m_platformStub.publishPrice(m_type, leadOptimal);
     }
