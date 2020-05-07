@@ -24,17 +24,18 @@ public class LinearRegressionSolver implements Solver {
     // Implements the equations in Lecture 4, slide 25
     public void fit(ArrayList<Record> history) {
         float leader_squared_sum = 0, follower_reaction_sum = 0, leader_sum = 0, leader_prod_follower_sum = 0;
-        int T = history.size(), window = 30;
+        int T = history.size(), window = 60;
         Record day;
 
+        double forgetting_factor = 0.95;
         // Single loop where we calculate the terms of the equations
         for (int i = T - window - 1; i < T; i++) {
             day = history.get(i);
 
-            leader_squared_sum += (day.m_leaderPrice * day.m_leaderPrice);
-            follower_reaction_sum += day.m_followerPrice;
-            leader_sum += day.m_leaderPrice;
-            leader_prod_follower_sum += (day.m_leaderPrice * day.m_followerPrice);
+            leader_squared_sum += Math.pow(forgetting_factor, T-i)*(day.m_leaderPrice * day.m_leaderPrice);
+            follower_reaction_sum += Math.pow(forgetting_factor, T-i)*day.m_followerPrice;
+            leader_sum += Math.pow(forgetting_factor, T-i)*day.m_leaderPrice;
+            leader_prod_follower_sum += Math.pow(forgetting_factor, T-i)*(day.m_leaderPrice * day.m_followerPrice);
         }
 
         // Calculate the numerator for each of the equations
