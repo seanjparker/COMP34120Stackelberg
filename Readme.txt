@@ -22,7 +22,11 @@ To run the simulation with the SimpleLeader, you need to
 
 i) run
 
-/usr/java/latest/bin/rmiregistry &
+/usr/java/latest/bin/rmiregistry
+
+or if you have iOS
+
+rmiregistry
 
 to enable RMI registration;
 
@@ -34,18 +38,12 @@ to run the GUI of the platform;
 
 iii) run
 
-java -Djava.rmi.server.hostname=127.0.0.1 SimpleLeader &
+java -Djava.rmi.server.hostname=127.0.0.1 Group5Leader &
 
-to run the SimpleLeader.
-
-And after these steps, you can play with the GUI to get some ideas of how
-the platform works.
-
+to run the Group5Leader.
 
 *********************************
-* 4.Compiling the leader class *
+*  Compiling the leader class   *
 *********************************
 
-No fancy parameters for the compiling, just
-
-javac YourLeader.java
+javac Group5Leader.java
